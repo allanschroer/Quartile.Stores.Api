@@ -52,7 +52,7 @@ namespace Quartile.Stores.Tests
             _mapperMock.Setup(mapper => mapper.Map<IEnumerable<StoreDto>>(storeEntities)).Returns(storeDtos);
 
             // Act
-            var result = _storeService.GetAll(companyId);
+            var result = _storeService.GetAllByCompanyId(companyId);
 
             // Assert
             Assert.True(result.Success);
@@ -67,7 +67,7 @@ namespace Quartile.Stores.Tests
             _storeRepositoryMock.Setup(repo => repo.GetAllByCompanyId(companyId)).Throws(new Exception("Database error"));
 
             // Act
-            var result = _storeService.GetAll(companyId);
+            var result = _storeService.GetAllByCompanyId(companyId);
 
             // Assert
             Assert.False(result.Success);
@@ -175,16 +175,16 @@ namespace Quartile.Stores.Tests
         {
             // Arrange
             int storeId = 1;
-            var storeDto = new StoreDto { Id = storeId, Name = "Updated Store", CompanyId = 1 };
-            var existingStore = new StoreModel { Id = storeId, Name = "Old Store", CompanyId = 1 };
+            var storeRequest = new CreateStoreRequest { Name = "Updated Store", CompanyId = 1 };
+            var existingStore = new StoreModel { Name = "Old Store", CompanyId = 1 };
 
             _storeRepositoryMock.Setup(repo => repo.GetById(storeId)).Returns(existingStore);
-            _mapperMock.Setup(mapper => mapper.Map(storeDto, existingStore)).Returns(existingStore);
+            _mapperMock.Setup(mapper => mapper.Map(storeRequest, existingStore)).Returns(existingStore);
             _storeRepositoryMock.Setup(repo => repo.Update(existingStore));
             _contextMock.Setup(context => context.SaveChanges()).Returns(1);
 
             // Act
-            var result = _storeService.Update(storeId, storeDto);
+            var result = _storeService.Update(storeId, storeRequest);
 
             // Assert
             Assert.True(result.Success);
@@ -198,11 +198,11 @@ namespace Quartile.Stores.Tests
         {
             // Arrange
             int storeId = 1;
-            var storeDto = new StoreDto { Id = storeId, Name = "Updated Store", CompanyId = 1 };
+            var storeRequest = new CreateStoreRequest { Name = "Updated Store", CompanyId = 1 };
             _storeRepositoryMock.Setup(repo => repo.GetById(storeId)).Returns((StoreModel?)null);
 
             // Act
-            var result = _storeService.Update(storeId, storeDto);
+            var result = _storeService.Update(storeId, storeRequest);
 
             // Assert
             Assert.False(result.Success);
@@ -214,14 +214,14 @@ namespace Quartile.Stores.Tests
         {
             // Arrange
             int storeId = 1;
-            var storeDto = new StoreDto { Id = storeId, Name = "Updated Store", CompanyId = 1 };
-            var existingStore = new StoreModel { Id = storeId, Name = "Old Store", CompanyId = 1 };
+            var storeRequest = new CreateStoreRequest { Name = "Updated Store", CompanyId = 1 };
+            var existingStore = new StoreModel { Name = "Old Store", CompanyId = 1 };
 
             _storeRepositoryMock.Setup(repo => repo.GetById(storeId)).Returns(existingStore);
-            _mapperMock.Setup(mapper => mapper.Map(storeDto, existingStore)).Throws(new Exception());
+            _mapperMock.Setup(mapper => mapper.Map(storeRequest, existingStore)).Throws(new Exception());
 
             // Act
-            var result = _storeService.Update(storeId, storeDto);
+            var result = _storeService.Update(storeId, storeRequest);
 
             // Assert
             Assert.False(result.Success);

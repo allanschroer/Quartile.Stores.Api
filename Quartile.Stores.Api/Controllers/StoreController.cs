@@ -2,7 +2,6 @@
 using Quartile.Stores.Domain.Dtos;
 using Quartile.Stores.Domain.Dtos.Endpoints.Store;
 using Quartile.Stores.Domain.Interfaces.Services;
-using Quartile.Stores.Domain.Models;
 
 namespace Quartile.Stores.Api.Controllers
 {
@@ -18,11 +17,11 @@ namespace Quartile.Stores.Api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<StoreModel>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<StoreDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        public ActionResult<IEnumerable<StoreModel>> GetStores(int comanyId)
+        public ActionResult<IEnumerable<StoreDto>> GetStores(int comanyId)
         {
-            var result = _storeService.GetAll(comanyId);
+            var result = _storeService.GetAllByCompanyId(comanyId);
 
             if (result.Success)
                 return Ok(result.Data);
@@ -44,14 +43,14 @@ namespace Quartile.Stores.Api.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        public ActionResult<StoreModel> CreateStore([FromBody] CreateStoreRequest store)
+        public IActionResult CreateStore([FromBody] CreateStoreRequest store)
         {
             var result = _storeService.Create(store);
 
             if (result.Success)
-                return Created();
+                return Ok();
             else
                 return BadRequest(result.Message);
         }
@@ -59,7 +58,7 @@ namespace Quartile.Stores.Api.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        public IActionResult UpdateStore(int id, StoreDto store)
+        public IActionResult UpdateStore(int id, CreateStoreRequest store)
         {
             var result = _storeService.Update(id, store);
 

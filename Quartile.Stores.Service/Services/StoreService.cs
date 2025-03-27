@@ -25,7 +25,23 @@ namespace Quartile.Stores.Service.Services
             _appContext = appContext;
         }
 
-        public OperationResult<IEnumerable<StoreDto>?> GetAll(int companyId)
+        public OperationResult<IEnumerable<StoreDto>?> GetAll()
+        {
+            try
+            {
+                var entities = _storeRepository.Set.ToList();
+                var dtos = _mapper.Map<IEnumerable<StoreDto>>(entities);
+
+                return OperationResult<IEnumerable<StoreDto>?>.CreateSuccess(dtos);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error on Get All Stores");
+                return OperationResult<IEnumerable<StoreDto>?>.CreateFailure("An error ocurred while trying to get all stores.");
+            }
+        }
+
+        public OperationResult<IEnumerable<StoreDto>?> GetAllByCompanyId(int companyId)
         {
             try
             {
@@ -75,7 +91,7 @@ namespace Quartile.Stores.Service.Services
             }
         }
 
-        public OperationResult Update(int id, StoreDto store)
+        public OperationResult Update(int id, CreateStoreRequest store)
         {
             try
             {
