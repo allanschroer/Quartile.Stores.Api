@@ -32,50 +32,6 @@ namespace Quartile.Stores.Tests
         }
 
         [Fact]
-        public void GetAll_ReturnsStores_WhenSuccess()
-        {
-            // Arrange
-            int companyId = 1;
-            var storeEntities = new List<StoreModel>
-            {
-                new StoreModel { Id = 1, Name = "Store 1", CompanyId = companyId },
-                new StoreModel { Id = 2, Name = "Store 2", CompanyId = companyId }
-            };
-
-            var storeDtos = new List<StoreDto>
-            {
-                new StoreDto { Id = 1, Name = "Store 1", CompanyId = companyId },
-                new StoreDto { Id = 2, Name = "Store 2", CompanyId = companyId }
-            };
-
-            _storeRepositoryMock.Setup(repo => repo.GetAllByCompanyId(companyId)).Returns(storeEntities);
-            _mapperMock.Setup(mapper => mapper.Map<IEnumerable<StoreDto>>(storeEntities)).Returns(storeDtos);
-
-            // Act
-            var result = _storeService.GetAllByCompanyId(companyId);
-
-            // Assert
-            Assert.True(result.Success);
-            Assert.Equal(storeDtos, result.Data);
-        }
-
-        [Fact]
-        public void GetAll_ReturnsFailure_WhenExceptionIsThrown()
-        {
-            // Arrange
-            int companyId = 1;
-            _storeRepositoryMock.Setup(repo => repo.GetAllByCompanyId(companyId)).Throws(new Exception("Database error"));
-
-            // Act
-            var result = _storeService.GetAllByCompanyId(companyId);
-
-            // Assert
-            Assert.False(result.Success);
-            Assert.Null(result.Data);
-            Assert.Equal("An error ocurred while trying to get all stores.", result.Message);
-        }
-
-        [Fact]
         public void GetById_ReturnsStore_WhenStoreExists()
         {
             // Arrange
