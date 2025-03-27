@@ -11,6 +11,8 @@ namespace Quartile.Stores.Infra.Configuration
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(StoresContext).Assembly);
+            
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

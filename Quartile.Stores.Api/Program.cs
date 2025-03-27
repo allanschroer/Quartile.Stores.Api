@@ -17,7 +17,6 @@ builder.Services.AddDbContext<StoresContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IStoreRepository, StoreRepository>();
 
 builder.Services.AddScoped<IStoreService, StoreService>();
