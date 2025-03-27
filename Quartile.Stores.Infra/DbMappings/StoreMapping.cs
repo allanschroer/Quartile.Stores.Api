@@ -10,59 +10,47 @@ namespace Quartile.Stores.Infra.DbMappings
         {
             builder.ToTable("Store");
 
-            builder.HasKey(x => x.Id);
+            builder.HasKey(a => a.Id);
 
-            builder.Property(s => s.Id)
+            builder.Property(a => a.Id)
                    .HasColumnType("int")
                    .IsRequired();
 
-            builder.Property(s => s.Name)
+            builder.Property(a => a.Name)
                 .HasColumnType("varchar(100)")
                 .HasMaxLength(100)
                 .IsRequired();
 
-            builder.Property(s => s.Address)
-                .HasColumnType("nvarchar(200)")
-                .HasMaxLength(200)
-                .IsRequired();
-
-            builder.Property(s => s.City)
-                .HasColumnType("nvarchar(100)")
+            builder.Property(a => a.Provider)
+                .HasColumnType("varchar(100)")
                 .HasMaxLength(100)
                 .IsRequired();
 
-            builder.Property(s => s.State)
-                .HasColumnType("nvarchar(50)")
-                .HasMaxLength(50)
-                .IsRequired();
-
-            builder.Property(s => s.ZipCode)
-                .HasColumnType("nvarchar(20)")
-                .HasMaxLength(20)
-                .IsRequired();
-
-            builder.Property(s => s.IsActive)
+            builder.Property(a => a.IsActive)
                 .HasColumnType("bit")
                 .HasDefaultValue(true)
                 .IsRequired();
 
-            builder.Property(s => s.CreatedDate)
+            builder.Property(a => a.CreatedDate)
                 .HasColumnType("datetime")
                 .HasDefaultValueSql("GETUTCDATE()")
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
-            builder.Property(s => s.ModifiedDate)
+            builder.Property(a => a.ModifiedDate)
                 .HasColumnType("datetime")
                 .ValueGeneratedOnUpdate();
 
-            builder.HasOne(s => s.Company)
-                .WithMany(c => c.Stores)
-                .HasForeignKey(s => s.CompanyId)
+            builder.HasOne(a => a.Company)
+                .WithMany(b => b.Stores)
+                .HasForeignKey(c => c.CompanyId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasIndex(s => s.Name)
+            builder.HasIndex(a => a.Name)
                 .HasDatabaseName("IX_Store_Name");
+
+            builder.HasIndex(a => a.CompanyId)
+                .HasDatabaseName("IX_Store_CompanyId");
         }
     }
 }

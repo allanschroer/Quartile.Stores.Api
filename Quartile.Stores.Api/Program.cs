@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Quartile.Stores.Api.Configuration;
 using Quartile.Stores.Domain.Interfaces.Repositories;
 using Quartile.Stores.Domain.Interfaces.Services;
-using Quartile.Stores.Infra.Configuration;
+using Quartile.Stores.Infra.Context;
 using Quartile.Stores.Infra.Reporitories;
 using Quartile.Stores.Service.Services;
 

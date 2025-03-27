@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Quartile.Stores.Infra.Configuration
+namespace Quartile.Stores.Infra.Context
 {
     public class StoresContext : DbContext
     {
@@ -11,7 +11,7 @@ namespace Quartile.Stores.Infra.Configuration
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(StoresContext).Assembly);
-            
+
             base.OnModelCreating(modelBuilder);
         }
     }

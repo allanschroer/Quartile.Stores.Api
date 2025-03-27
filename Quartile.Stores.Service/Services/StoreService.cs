@@ -6,7 +6,7 @@ using Quartile.Stores.Domain.Interfaces.Repositories;
 using Quartile.Stores.Domain.Interfaces.Services;
 using Quartile.Stores.Domain.Models;
 using Quartile.Stores.Domain.Restuls;
-using Quartile.Stores.Infra.Configuration;
+using Quartile.Stores.Infra.Context;
 
 namespace Quartile.Stores.Service.Services
 {
